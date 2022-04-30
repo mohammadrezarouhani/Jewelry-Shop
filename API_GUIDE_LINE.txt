@@ -1,0 +1,31 @@
+
+product
+    POST** /product/list/?user=user_id                  ==> can perform create and list action for all product and also can
+                                                            get all users product by query param
+    PUT|DELETE|GET /product/detail/<str:product_id>/    ==> can perform edit,delete,retrieve action for product 
+    
+    POST /product/factor/                               ==> can perform create action for factor 
+    
+    PUT|DELETE|GET /product/factor/<str:pk>/            ==>can perform edit,delete,retrieve action for factor 
+
+    GET /product/user-factor/<str:user_id>              ==> giving all factors that created by user
+       
+    GET /product/daily-profit/<str:user>/               ==> giving daily profit up tp one month in advance 
+    
+    GET /product/monthly-profit/<str:user>/             ==> giving monthly profit up tp one year in advance 
+    
+    GET /product/currency-price/                        ==> request to tgju.com site and get needed currency price  
+                                                             like dollor gold and coin
+
+**************************************************************************************************
+user
+    POST user/token/                                ==> should give our username and pass inorder to get access and refresh token
+    
+    POST user/token/refresh                         ==> should giving our refresh token to it inorder to get new access token
+    
+    POST user/register/                             ==> can create new user with this api
+    
+    GET|PUT|DELETE user/detail/<str:user_id>/       ==> delete destroy retrieve user
+    
+    PUT user/password-change/<str:user_id>/         ==> for changing user pass
+
