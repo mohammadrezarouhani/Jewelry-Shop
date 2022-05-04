@@ -1,7 +1,6 @@
 from distutils.command.upload import upload
-from email.policy import default
-from pyexpat import model
-from statistics import mode
+from email.mime import image
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
@@ -13,9 +12,18 @@ class BaseUser(AbstractUser):
     username=models.CharField(max_length=75,unique=True)
     email=models.EmailField(unique=True)
     phone=models.CharField(max_length=55,blank=True,null=True)
+    image=models.ImageField(default='def.jpg',upload_to='profile_image')
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=['username']
 
+
+    def save(self):
+        super().save()
+        img=Image.open(self.image.path)
+        if img.height>100 and img.width >100:
+            img.thumbnail((100,100))
+            img.save(self.image.path)
+        
 
     def __str__(self) -> str:
         return "{} ({})".format(self.email,self.id)

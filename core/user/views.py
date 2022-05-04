@@ -27,6 +27,7 @@ class PasswordReset(generics.UpdateAPIView):
         except:
             return Response(status.HTTP_404_NOT_FOUND)
 
+
     def update(self, request, *args, **kwargs):
         serializer=self.get_serializer(data=request.data)
         user=self.get_object()
