@@ -1,5 +1,4 @@
 from distutils.command.upload import upload
-from email.mime import image
 from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -17,12 +16,13 @@ class BaseUser(AbstractUser):
     REQUIRED_FIELDS=['username']
 
 
-    def save(self):
+    def save(self,*args, **kwargs):
         super().save()
         img=Image.open(self.image.path)
-        if img.height>100 and img.width >100:
-            img.thumbnail((100,100))
+        if img.height>500 and img.width >500:
+            img.thumbnail((500,500))
             img.save(self.image.path)
+        img.close()
         
 
     def __str__(self) -> str:

@@ -131,9 +131,3 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
-
-# image static url and media url
-# data base setup and migrations
-# super user 
-# user create 
-# user detail
