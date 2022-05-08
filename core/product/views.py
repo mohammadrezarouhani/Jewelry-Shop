@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import Product
-from .serializer import ProductSerializer
+from .models import Factor, Product
+from .serializer import FactorSerializer, ProductSerializer
 
 
 class ProductList(generics.ListCreateAPIView):
@@ -17,12 +17,20 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
 
 
-class FactorList:
-    pass
+class FactorList(generics.ListCreateAPIView):
+    serializer_class=FactorSerializer
+    
+
+    def get_queryset(self):
+        param=self.request.query_params.get('seller','')
+        if param:
+            return Factor.objects.filter(seller=param)
 
 
-class FactorDetail:
-    pass
+class FactorDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class=FactorSerializer
+    queryset=Factor.objects.all()
+
 
 
 class DailyProfit:
