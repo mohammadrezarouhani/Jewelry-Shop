@@ -1,7 +1,9 @@
-from rest_framework import generics
+from rest_framework import generics,status
+from rest_framework.views import APIView
 from .models import Factor, Product
 from .serializer import FactorSerializer, ProductSerializer
-
+from .currency_prices import get_currency_prices
+from rest_framework.response import Response
 
 class ProductList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
@@ -11,7 +13,7 @@ class ProductList(generics.ListCreateAPIView):
         if param:
             return Product.objects.filter(user=param)
 
-
+  
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
@@ -33,13 +35,16 @@ class FactorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class DailyProfit:
-    pass
+class DailySale(APIView):
+    def get(self,request,foramt=None):
+        pass
 
 
-class MonthlyProfit:
-    pass
+class MonthlySale(APIView):
+    def get(self,request,foramat=None):
+        pass
 
 
-class CurrencyInfo:
-    pass
+class CurrencyInfo(APIView):
+    def get(self,format=None):
+        return Response(get_currency_prices(),status=status.HTTP_200_OK)
