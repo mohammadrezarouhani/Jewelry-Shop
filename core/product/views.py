@@ -1,3 +1,4 @@
+import pdb
 from rest_framework import generics,status
 from rest_framework.views import APIView
 from .models import Factor, Product
@@ -45,6 +46,8 @@ class MonthlySale(APIView):
         pass
 
 
-class CurrencyInfo(APIView):
-    def get(self,format=None):
-        return Response(get_currency_prices(),status=status.HTTP_200_OK)
+class CurrencyInfo(generics.ListAPIView):
+    def get(self,request,format=None):
+        pdb.set_trace()
+        data=get_currency_prices()
+        return Response({'cureency':data},status=status.HTTP_200_OK)
