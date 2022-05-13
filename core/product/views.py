@@ -48,6 +48,5 @@ class MonthlySale(APIView):
 
 class CurrencyInfo(generics.ListAPIView):
     def get(self,request,format=None):
-        pdb.set_trace()
         data=get_currency_prices()
-        return Response({'cureency':data},status=status.HTTP_200_OK)
+        return Response({'currency':data},status=status.HTTP_200_OK)
