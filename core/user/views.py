@@ -1,10 +1,10 @@
 from turtle import pd
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import generics,status
 from rest_framework.response import Response
 from .models import BaseUser
 from .serializer import UserRegisterSerializer, UserSerializer,PasswordSerializer
+from rest_framework.permissions import IsAuthenticated
 import pdb
 
 class UserRegister(generics.CreateAPIView):
@@ -15,11 +15,13 @@ class UserRegister(generics.CreateAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=BaseUser.objects.all()
     serializer_class=UserSerializer
+    permissions=[IsAuthenticated]
 
 
 class PasswordReset(generics.UpdateAPIView):
     serializer_class=PasswordSerializer
     model=BaseUser
+    permissions=[IsAuthenticated]
   
     def get_object(self):
         try:
