@@ -1,4 +1,3 @@
-from turtle import pd
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import generics,status
 from rest_framework.response import Response
@@ -46,7 +45,6 @@ class PasswordReset(generics.UpdateAPIView):
 
                 user.set_password(serializer.data.get('new_password'))
                 user.save()
-
                 return Response({'new password':'password changed'},status=status.HTTP_200_OK) 
 
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
