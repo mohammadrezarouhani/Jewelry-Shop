@@ -1,6 +1,6 @@
 from ast import Delete
 from rest_framework import serializers
-from .models import Factor, Product, ProductSold
+from .models import Factor, Product, FactorProduct
 import pdb 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductSoldSerializer(serializers.ModelSerializer):
     class Meta:
-        model=ProductSold
+        model=FactorProduct
         fields=['id','product','name','price','number']
 
 
@@ -29,16 +29,16 @@ class FactorSerializer(serializers.ModelSerializer):
         factor=Factor.objects.create(**validated_data)
 
         for data in product:
-            ProductSold.objects.create(**data,factor=factor)
+            FactorProduct.objects.create(**data,factor=factor)
         return factor
 
 
     def update(self, instance, validated_data):
         product=validated_data.pop("product_sold")
-        ProductSold.objects.filter(factor=instance).delete()
+        FactorProduct.objects.filter(factor=instance).delete()
 
         for data in product:
-            ProductSold.objects.create(**data,factor=instance)
+            FactorProduct.objects.create(**data,factor=instance)
 
         return super().update(instance,validated_data)
 

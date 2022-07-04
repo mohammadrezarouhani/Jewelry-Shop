@@ -13,7 +13,6 @@ class Product(models.Model):
     TYPE=(['co','coin'],['jew','jewelry'],['go','gold_bullion'])
     UNIT=(['o','ons'],['m','methghal'],['gr','geram'])
 
-    id=models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     user=models.ForeignKey(BaseUser,on_delete=models.CASCADE,related_name='product_user')
     name=models.CharField(max_length=55)
     type=models.CharField(choices=TYPE,max_length=55,default=GRAM)
@@ -36,12 +35,12 @@ class Product(models.Model):
         return "{} ({})".format(self.name,self.id)
 
 
+
 class Factor(models.Model):
     CASH='csh'
     CREDIT='crd'
     PAYMENT=(['csh','cash'],['crd','credit'])
 
-    id=models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     seller=models.ForeignKey(BaseUser,on_delete=models.CASCADE)
     customer_name=models.CharField(max_length=155)
     payment_type = models.CharField(choices=PAYMENT,default=CASH,max_length=55)
@@ -52,11 +51,10 @@ class Factor(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"({self.id})"
+        return f"{self.customer_name}({self.id})"
     
 
-class ProductSold(models.Model):
-    id=models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
+class FactorProduct(models.Model):
     factor=models.ForeignKey(Factor,on_delete=models.CASCADE,related_name='product_sold')
     product=models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
     name=models.CharField(max_length=155)
