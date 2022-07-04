@@ -5,19 +5,22 @@ import uuid
 from django.utils import timezone
 from user.models import BaseUser
 
-TYPE=([1,'coin'],[2,'jewelry'],[3,'gold_bullion'])
-UNIT=([1,'ons'],[2,'methghal'],[3,'geram'])
-PAYMENT=([1,'cash'],[2,'credit'])
+
 
 class Product(models.Model):
+    COIN='co'
+    GRAM='gr'
+    TYPE=(['co','coin'],['jew','jewelry'],['go','gold_bullion'])
+    UNIT=(['o','ons'],['m','methghal'],['gr','geram'])
+
     id=models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     user=models.ForeignKey(BaseUser,on_delete=models.CASCADE,related_name='product_user')
     name=models.CharField(max_length=55)
-    type=models.IntegerField(choices=TYPE)
+    type=models.CharField(choices=TYPE,max_length=55,default=GRAM)
     weight=models.FloatField(default=0.0)
-    unit=models.IntegerField(choices=UNIT)
-    inventory=models.IntegerField()
-    date=models.DateField(default=timezone.now)
+    unit=models.CharField(choices=UNIT,max_length=55)
+    inventory=models.PositiveSmallIntegerField()
+    date_added=models.DateField(auto_now=True)
     image=models.ImageField(default='def.jpg',upload_to='product_image')
     description=models.CharField(max_length=255,blank=True,null=True)
 
@@ -34,18 +37,22 @@ class Product(models.Model):
 
 
 class Factor(models.Model):
+    CASH='csh'
+    CREDIT='crd'
+    PAYMENT=(['csh','cash'],['crd','credit'])
+
     id=models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     seller=models.ForeignKey(BaseUser,on_delete=models.CASCADE)
     customer_name=models.CharField(max_length=155)
-    payment_type = models.IntegerField(choices=PAYMENT, default=1)
+    payment_type = models.CharField(choices=PAYMENT,default=CASH,max_length=55)
     total_price = models.CharField(max_length=255)
     tax =models.CharField(max_length=255)
     discount = models.CharField(max_length=255)
     comment = models.CharField(max_length=755,null=True,blank=True)
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.id}"
+        return f"({self.id})"
     
 
 class ProductSold(models.Model):
