@@ -5,15 +5,29 @@ import pdb
 
 def get_currency_prices():
     header = {
-        'Cookie': 'tgju-popup=true; analytics_campaign={%22source%22:%22direct%22%2C%22medium%22:null}; analytics_session_token=291d0f6d-88a5-e67d-c9fd-6e39abfa3507; analytics_token=1ab5284f-5b45-75f9-d32d-03e859573dbc; yektanet_session_last_activity=8/1/2021; _yngt_iframe=1; _yngt=b098836c-ce658-80380-06b94-4ffb62a39fd6b; _gcl_au=1.1.622868567.1627828992',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0',
-        'Connection': 'close',
-        'cache':'false'
+        'date': 'Tue, 05 Jul 2022 18:37:52 GMT',
+        'content-type': 'application/json',
+        'last-modified': 'Tue, 05 Jul 2022 18:37:48 GMT',
+        'etag': "W/62c484fc-2b3ba",
+        'expires': 'Thu, 31 Dec 2037 23:55:55 GMT',
+        'cache-control': 'public, max-age=315360000',
+        'access-control-allow-origin':'*',
+        'cf-cache-status':' MISS',
+        'expect-ct': 'max-age=604800; report-uri=https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct',
+        'report-to': {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=PuPc%2B4Y9Pue3Dh1%2B9ZeC43cT%2Frjw4WzjdnP0UPeSPPHYZmgNMgaD5JCm1km73SSw%2B50fymnZ02f9L9scbicU5pJKzwm5jZSppoqx9q6TbS2x%2B%2Bi0IliHRvF6yIJNgKZC"}],"group":"cf-nel","max_age":604800},
+        'nel': {"success_fraction":0,"report_to":"cf-nel","max_age":604800},
+        'vary': 'Accept-Encoding',
+        'strict-transport-security': 'max-age=15552000; includeSubDomains; preload',
+        'x-content-type-options': 'nosniff',
+        'server': 'cloudflare',
+        'cf-ray': '726236e2d8a18fe3-FRA',
+        'content-encoding': 'br',
+        'alt-svc': 'h3=":443"; ma=86400, h3-29=":443"; ma=86400',
     }
 
 
 
-    url='https://call5.tgju.org/ajax.json'
+    url='https://call5.tgju.org/ajax.json?rev=cuL8G3eIsub5vXsO3YzNAOKSoPmMrS1M35ZZ94mNaRh4ZUT5U43ghlOQQOJ3'
     data = requests.get(url,headers=header).text
 
     data = json.loads(data)
@@ -44,6 +58,7 @@ def get_currency_prices():
         'quarter_coin': coin_quarter['p'],
         'gerami_coin': coin_gerami['p']
     }
+    pdb.set_trace()    
     
     return currency
 
@@ -51,4 +66,3 @@ def get_currency_prices():
 
 if __name__=='__main__':
     data=get_currency_prices()
-    pdb.set_trace()    
