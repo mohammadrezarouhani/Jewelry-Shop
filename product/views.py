@@ -56,13 +56,13 @@ class DailySale(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     serializer_class=DailyPriceSerializer
 
-    def get(self,request,foramt=None):
+    def get_queryset(self):
         query="""
             select 
             1 id , 
             sum(cast(total_price as int )) - sum(cast(tax as int)) - sum(cast (discount as int)) as price, DATE(date_added)
             from product_factor 
-            where DATE(date_added)  > DATE((CURRENT_DATE - interval '30 days') ) 
+            where DATE(date_added)  > DATE((CURRENT_DATE - interval '30 days')) 
             and products_factor.seller_id = %s
             group by DATE(date_added) 
         """
