@@ -43,4 +43,12 @@ class FactorSerializer(serializers.ModelSerializer):
         return super().update(instance,validated_data)
 
 
-    
+class DailyPriceSerializer(serializers.Serializer):
+    price=serializers.CharField(max_length=255)
+    date=serializers.DateField()
+
+
+class MonthlyPriceSerializer(serializers.Serializer):
+    price=serializers.CharField(max_length=255)
+    month=serializers.CharField(max_length=25)
+    year=serializers.CharField(max_length=25)

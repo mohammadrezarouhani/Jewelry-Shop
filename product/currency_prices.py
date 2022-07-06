@@ -22,7 +22,6 @@ def get_currency_prices():
     geram18 = prices.get('geram18', 'none')
     geram24 = prices.get('geram24', 'none')
     gold_740k = prices.get('gold_740k', 'none')
-    gold_melted_transfer = prices.get('gold_melted_transfer', 'none')
 
     coin_emami = prices.get('sekee', 'none')
     coin_bahar_azadi = prices.get('sekeb', 'none')
@@ -34,7 +33,6 @@ def get_currency_prices():
         'carat18': geram18['p'],
         'carat24': geram24['p'],
         'carat740': gold_740k['p'],
-        'melted_gold_transfer': gold_melted_transfer['p'],
         'coin_emami': coin_emami['p'],
         'coin_bahar_azadi': coin_bahar_azadi['p'],
         'half_coin': coin_half['p'],
@@ -49,4 +47,4 @@ def get_currency_prices():
 
 if __name__=='__main__':
     data=get_currency_prices()
-    pdb.set_trace()
+    pdb.set_trace

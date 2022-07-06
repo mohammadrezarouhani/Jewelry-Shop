@@ -2,7 +2,12 @@ import pdb
 from rest_framework import generics,status
 from rest_framework.views import APIView
 from .models import Factor, Product
-from .serializer import FactorSerializer, ProductSerializer
+from .serializer import (
+            DailyPriceSerializer,
+            FactorSerializer,
+            MonthlyPriceSerializer,
+            ProductSerializer
+            )
 from .currency_prices import get_currency_prices
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -46,25 +51,47 @@ class FactorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class DailySale(APIView):
+class DailySale(generics.ListAPIView):
     permissions=[IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    serializer_class=DailyPriceSerializer
 
     def get(self,request,foramt=None):
-        pass
+        query="""
+            select 
+            1 id , 
+            sum(cast(total_price as int )) - sum(cast(tax as int)) - sum(cast (discount as int)) as price, DATE(date_added)
+            from product_factor 
+            where DATE(date_added)  > DATE((CURRENT_DATE - interval '30 days') ) 
+            and products_factor.seller_id = %s
+            group by DATE(date_added) 
+        """
+        return Factor.objects.raw(query,[self.kwargs['user']])
 
 
-class MonthlySale(APIView):
+class MonthlySale(generics.ListAPIView):
     permissions=[IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    serializer_class=MonthlyPriceSerializer
 
-    def get(self,request,foramat=None):
-        pass
+    def get_queryset(self):
+        query="""
+            select 1 id,
+            sum(cast(total_price as int )) - sum(cast(tax as int)) - sum(cast (discount as int)) as price ,
+            to_char(date,'Mon') as month,
+            extract(year from date) as year
+            from products_factor 
+            where extract(month from DATE(date))  > extract(month from DATE(CURRENT_DATE)) - 12
+            and products_factor.seller_id = %s
+            group by 3,4
+        """
+        return Factor.objects.raw(query , [self.kwargs['user']])
 
 
 class CurrencyInfo(generics.ListAPIView):
     permission_classes=[IsAuthenticated]
-
+    authentication_classes=[JWTAuthentication]
+    
     def get(self,request,format=None):
         data=get_currency_prices()
         return Response({'currency':data},status=status.HTTP_200_OK)
