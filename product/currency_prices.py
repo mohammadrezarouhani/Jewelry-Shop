@@ -12,7 +12,7 @@ def get_currency_prices():
         'expires': 'Thu, 31 Dec 2037 23:55:55 GMT',
         'cache-control': 'public, max-age=315360000',
         'access-control-allow-origin':'*',
-        'cf-cache-status':' MISS',
+        'cf-cache-status':'MISS',
         'expect-ct': 'max-age=604800; report-uri=https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct',
         'report-to': {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=PuPc%2B4Y9Pue3Dh1%2B9ZeC43cT%2Frjw4WzjdnP0UPeSPPHYZmgNMgaD5JCm1km73SSw%2B50fymnZ02f9L9scbicU5pJKzwm5jZSppoqx9q6TbS2x%2B%2Bi0IliHRvF6yIJNgKZC"}],"group":"cf-nel","max_age":604800},
         'nel': {"success_fraction":0,"report_to":"cf-nel","max_age":604800},
