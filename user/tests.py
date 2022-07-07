@@ -1,4 +1,6 @@
 import email
+from email import header
+from http import client
 from os import stat
 from selectors import BaseSelector
 from django.urls import reverse
@@ -20,6 +22,7 @@ class UserTest(APITestCase):
             email='test@test.com', password='pass'), format='json')
         self.refresh_token = resp.data.get('refresh')
         self.access_token = resp.data.get('access')
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer {}'.format(self.access_token))
         return super().setUp()
 
 
@@ -31,20 +34,15 @@ class UserTest(APITestCase):
 
 
     def test_user_detail(self):
-        url_register = reverse('user-register')
         user = {
                 'username': 'new',
                 'email': 'new@test.com',
                 'password': 'pass'
                 }
-
         user=BaseUser.objects.create(**user)
         url_detail = reverse('user-detail', kwargs={'pk': user.pk})
-        # pdb.set_trace()
-
         resp = self.client.get(url_detail)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
         edited_user = {
                     "id":user.pk,
                     "username": "new",
@@ -55,6 +53,10 @@ class UserTest(APITestCase):
                     }
         resp = self.client.put(url_detail, data=edited_user, format='json')
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
+
+        resp=self.client.delete(url_detail)
+        self.assertEqual(resp.status_code,status.HTTP_204_NO_CONTENT)
+        self.assertEqual(resp.data,None)
 
 
     def test_password_reset(self):
@@ -70,11 +72,3 @@ class UserTest(APITestCase):
             email='test@test.com', password='pass'), format='json')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertTrue('access' in resp.data and 'refresh' in resp.data)
-
-
-
-    def delete_user(self):
-        url=reverse('user-detail',kwargs={'pk':self.user.pk})
-        resp=self.client.delete(url)
-        self.assertEqual(resp.status_code,status.HTTP_204_NO_CONTENT)
-        self.assertEqual(resp.data,{})
