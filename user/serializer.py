@@ -12,7 +12,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=BaseUser
-        fields=['id','email','first_name','last_name','phone']
+        fields=['id','username','email','first_name','last_name','phone']
 
 
 class PasswordSerializer(serializers.Serializer):

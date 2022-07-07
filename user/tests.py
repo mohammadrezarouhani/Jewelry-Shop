@@ -1,56 +1,75 @@
+import email
+from os import stat
 from selectors import BaseSelector
 from django.urls import reverse
 import pdb
 from rest_framework.test import APITestCase
 from rest_framework import status
-
+from django.contrib.auth.hashers import make_password
 from user.models import BaseUser
 
 
 class UserTest(APITestCase):
     def setUp(self):
+        password = make_password('pass')
+        self.user = BaseUser.objects.create(
+            username='test', email='test@test.com', password=password)
+
+        url = reverse('token-obtain')
+        resp = self.client.post(url, data=dict(
+            email='test@test.com', password='pass'), format='json')
+        self.refresh_token = resp.data.get('refresh')
+        self.access_token = resp.data.get('access')
         return super().setUp()
 
-    def test_user_registration(self):
-        pass
+
+    def test_user_register(self):
+        url = reverse('user-register')
+        data = dict(username='test1', email='test1@test.com', password='test')
+        resp = self.client.post(url, data=data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
 
-    def test_user_update(self):
-        user=BaseUser.objects.create(username='test',email='test@test.com',password='pass',is_active=True)
-        user.save()
+    def test_user_detail(self):
+        url_register = reverse('user-register')
+        user = {
+                'username': 'new',
+                'email': 'new@test.com',
+                'password': 'pass'
+                }
 
-        # test user register
-        url=reverse('user-register')
-        data = dict(email='test1@test.com',password='password1')
-        self.user=self.client.post(url,data=data)
-        self.assertEqual(self.user.status_code,status.HTTP_201_CREATED)
-        self.assertEqual(self.user.data,data)
+        user=BaseUser.objects.create(**user)
+        url_detail = reverse('user-detail', kwargs={'pk': user.pk})
+        # pdb.set_trace()
 
-        url=reverse('token-obtain')
-        resp=self.client.post(url,data=dict(username='test@test.com',password='pass'),format='json')
-        pdb.set_trace()
+        resp = self.client.get(url_detail)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-        # test user-detail
-        data={
-            'username':'test',
-            'email':'test@test.com',
-            'first_name':'test',
-            'last_name':'test',
-            'phone':'+9142563238'
-        }
-        url=reverse('user-detail',kwargs={'pk':'1'})
-        resp=self.client.put(url,data=data,format='json')
+        edited_user = {
+                    "id":user.pk,
+                    "username": "new",
+                    "email": "new@test.com",
+                    "first_name": "test",
+                    "last_name": "test",
+                    "phone": "+9142456325"
+                    }
+        resp = self.client.put(url_detail, data=edited_user, format='json')
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
-        
-        # test get user-detail 
-        resp=self.client.get(url)
+
+
+    def test_password_reset(self):
+        url = reverse('password-reset', kwargs={'pk': '1'})
+        data = dict(old_password='pass', new_password='new_password')
+        resp = self.client.put(url, data=data, format='json')
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
 
-        # test password-change
-        url=reverse('password-change')
-        data=dict(old_password='password',newpassword='new_password')
-        resp=self.client.put(url,data=data,format='json')
+
+    def test_jwt_token(self):
+        url = reverse('token-obtain')
+        resp = self.client.post(url, data=dict(
+            email='test@test.com', password='pass'), format='json')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertTrue('access' in resp.data and 'refresh' in resp.data)
 
 
-if __name__ == '__main__':
-    url='loca'
+
