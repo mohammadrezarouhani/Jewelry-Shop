@@ -73,3 +73,8 @@ class UserTest(APITestCase):
 
 
 
+    def delete_user(self):
+        url=reverse('user-detail',kwargs={'pk':self.user.pk})
+        resp=self.client.delete(url)
+        self.assertEqual(resp.status_code,status.HTTP_204_NO_CONTENT)
+        self.assertEqual(resp.data,{})
