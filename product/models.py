@@ -1,8 +1,5 @@
-from itertools import product
 from PIL import Image
 from django.db import models
-import uuid
-from django.utils import timezone
 from user.models import BaseUser
 
 

@@ -79,10 +79,9 @@ class TestProduct(APITestCase):
     def test_factor_list(self):
         url='{}?seller={}'.format(reverse('factor-list'),self.user.id)
         data={
-            'user':self.user.id,
+            'user':self.user,
             'name':'test',
             'type':'jew',
-            'price':20000000000,
             'weight':20.55,
             'unit':'m',
             'inventory':3,
@@ -99,11 +98,15 @@ class TestProduct(APITestCase):
             'comment':'test',
             'factor_product':[
                 {
+                    'name':'test',
                     'product':product.id,
-                    'number':4
+                    'number':4,
+                    'price':'100000',
                 },
             ]
         }
+        resp=self.client.post(url,data=data,format='json')
+        
 
     def test_factor_detail(self):
         url=reverse('factor-detail',kwargs={'pk':self.user.id})
