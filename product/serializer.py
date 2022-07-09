@@ -16,7 +16,7 @@ class ProductSoldSerializer(serializers.ModelSerializer):
 
 
 class FactorSerializer(serializers.ModelSerializer):
-    product_sold=ProductSoldSerializer(many=True)
+    factor_product=ProductSoldSerializer(many=True)
 
     class Meta:
         model=Factor

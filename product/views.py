@@ -11,12 +11,12 @@ from .serializer import (
 from .currency_prices import get_currency_prices
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
 
 class ProductList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         param = self.request.query_params.get('user', '')
@@ -28,15 +28,12 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
 
 
 class FactorList(generics.ListCreateAPIView):
     serializer_class=FactorSerializer
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
     
-
     def get_queryset(self):
         param=self.request.query_params.get('seller','')
         if param:
@@ -47,13 +44,11 @@ class FactorDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=FactorSerializer
     queryset=Factor.objects.all()
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
 
 
 
 class DailySale(generics.ListAPIView):
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
     serializer_class=DailyPriceSerializer
 
     def get_queryset(self):
@@ -71,7 +66,6 @@ class DailySale(generics.ListAPIView):
 
 class MonthlySale(generics.ListAPIView):
     permissions=[IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
     serializer_class=MonthlyPriceSerializer
 
     def get_queryset(self):
@@ -90,7 +84,6 @@ class MonthlySale(generics.ListAPIView):
 
 class CurrencyInfo(generics.ListAPIView):
     permission_classes=[IsAuthenticated]
-    authentication_classes=[JWTAuthentication]
     
     def get(self,request,format=None):
         data=get_currency_prices()

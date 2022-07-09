@@ -15,9 +15,9 @@ class Product(models.Model):
 
     user=models.ForeignKey(BaseUser,on_delete=models.CASCADE,related_name='product_user')
     name=models.CharField(max_length=55)
-    type=models.CharField(choices=TYPE,max_length=55,default=GRAM)
+    type=models.CharField(choices=TYPE,max_length=55,default=COIN)
     weight=models.FloatField(default=0.0)
-    unit=models.CharField(choices=UNIT,max_length=55)
+    unit=models.CharField(choices=UNIT,max_length=55,default=GRAM)
     inventory=models.PositiveSmallIntegerField()
     date_added=models.DateField(auto_now=True)
     image=models.ImageField(default='def.jpg',upload_to='product_image')
