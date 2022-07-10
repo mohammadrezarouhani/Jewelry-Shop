@@ -1,5 +1,6 @@
 from PIL import Image
 from django.db import models
+from django.forms import modelformset_factory
 from user.models import BaseUser
 
 
@@ -12,6 +13,7 @@ class Product(models.Model):
 
     user=models.ForeignKey(BaseUser,on_delete=models.CASCADE,related_name='product_user')
     name=models.CharField(max_length=55)
+    price=models.PositiveIntegerField()
     type=models.CharField(choices=TYPE,max_length=55,default=COIN)
     weight=models.FloatField(default=0.0)
     unit=models.CharField(choices=UNIT,max_length=55,default=GRAM)
@@ -41,9 +43,6 @@ class Factor(models.Model):
     seller=models.ForeignKey(BaseUser,on_delete=models.CASCADE)
     customer_name=models.CharField(max_length=155)
     payment_type = models.CharField(choices=PAYMENT,default=CASH,max_length=55)
-    total_price = models.CharField(max_length=255)
-    tax =models.CharField(max_length=255)
-    discount = models.CharField(max_length=255)
     comment = models.CharField(max_length=755,null=True,blank=True)
     date = models.DateTimeField(auto_now=True)
 
@@ -55,7 +54,9 @@ class FactorProduct(models.Model):
     factor=models.ForeignKey(Factor,on_delete=models.CASCADE,related_name='product_sold')
     product=models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
     name=models.CharField(max_length=155)
-    price=models.CharField(max_length=155)
+    price=models.PositiveIntegerField()
+    tax=models.PositiveIntegerField()
+    discount=models.PositiveIntegerField()
     number=models.IntegerField()
 
     def __str__(self) :

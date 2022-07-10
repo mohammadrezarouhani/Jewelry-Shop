@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductSoldSerializer(serializers.ModelSerializer):
     class Meta:
         model=FactorProduct
-        fields=['id','product','name','price','number']
+        fields=['id','product','name','price','tax','discount','number']
 
 
 class FactorSerializer(serializers.ModelSerializer):
@@ -21,8 +21,7 @@ class FactorSerializer(serializers.ModelSerializer):
     class Meta:
         model=Factor
         fields=['id','seller','customer_name',
-                'payment_type','total_price','tax',
-                'discount','comment','date',"product_sold"]
+                'payment_type','comment','date',"product_sold"]
 
     def create(self, validated_data):
         product=validated_data.pop('product_sold')
