@@ -9,4 +9,4 @@ COPY . /app/
 
 RUN python manage.py migrate --no-input
 RUN python manage.py collectstatic --no-input
-CMD [ "python","manage.py","runserver","0.0.0.0:8000"]
+CMD [ "python","manage.py","runserver","0.0.0.0:8001"]

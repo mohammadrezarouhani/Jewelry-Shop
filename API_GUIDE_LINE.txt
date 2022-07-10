@@ -13,7 +13,7 @@ product
     GET ************* /product/monthly-sale/<str:user>/             ==> giving monthly profit up tp one year in advance **** not completed
     
     GET ************* /product/currency-price/                      ==> request to tgju.com site and get needed currency price  
-                                                             like dollor gold and coin
+                                                                     like dollor gold and coin
 
 **************************************************************************************************
 user
