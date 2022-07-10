@@ -1,12 +1,9 @@
-from http.client import NETWORK_AUTHENTICATION_REQUIRED
-import pdb
-from django.test import TestCase
 from rest_framework.test import APITestCase
 from user.models import BaseUser
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from django.urls import reverse
-from .models import Product,Factor
+from .models import FactorProduct, Product,Factor
 
 
 class TestProduct(APITestCase):
@@ -96,7 +93,7 @@ class TestProduct(APITestCase):
             'tax':100000,
             'discount':10000,
             'comment':'test',
-            'factor_product':[
+            'product_sold':[
                 {
                     'name':'test',
                     'product':product.id,
@@ -106,16 +103,52 @@ class TestProduct(APITestCase):
             ]
         }
         resp=self.client.post(url,data=data,format='json')
-        
+        self.assertEqual(resp.status_code,status.HTTP_201_CREATED)
+        self.assertTrue('product_sold' in resp.data)
+
 
     def test_factor_detail(self):
-        url=reverse('factor-detail',kwargs={'pk':self.user.id})
+        data={
+            'name':'test',
+            'type':'jew',
+            'weight':20.55,
+            'unit':'m',
+            'inventory':3,
+            'description':'test disc'
+        }
+        # product=Product.objects.create(**data)
 
-    def test_daily_sale(self):
-        url=reverse('daily-sale',kwargs={'user':self.user.id})
+    #     data={
+    #         'seller':self.user,
+    #         'customer_name':'test',
+    #         'payment_type':'csh',
+    #         'total_price':'500000',
+    #         'tax':100000,
+    #         'discount':10000,
+    #         'comment':'test'
+    #     }
+    #     factor=Factor.objects.create(**data)
 
-    def test_monthly_sale(self):
-        url=reverse('monthly-sale',kwargs={'user':self.user.id})
+    #     data={
+    #                 'factor':factor,
+    #                 'name':'test',
+    #                 'product':product.id,
+    #                 'number':4,
+    #                 'price':'100000',
+    #     }
+    #     product_sold=FactorProduct.objects.create(**data)
 
-    def test_currency_info(self):
-        url=reverse('currency-info')
+    #     url=reverse('factor-detail',kwargs={'pk':factor.id})
+    #     resp=self.client.get(url)
+    #     self.assertEqual(resp.status_code,status.HTTP_200_OK)
+    #     self.assertTrue('produc_sold' in resp.data)
+        
+
+    # def test_daily_sale(self):
+    #     url=reverse('daily-sale',kwargs={'user':self.user.id})
+
+    # def test_monthly_sale(self):
+    #     url=reverse('monthly-sale',kwargs={'user':self.user.id})
+
+    # def test_currency_info(self):
+    #     url=reverse('currency-info')
