@@ -155,5 +155,9 @@ class TestProduct(APITestCase):
     def test_monthly_sale(self):
         url=reverse('monthly-sale',kwargs={'user':self.user.id})
 
+
     def test_currency_info(self):
         url=reverse('currency-info')
+        resp=self.client.get(url)        
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+        self.assertTrue('currency' in resp.data)
