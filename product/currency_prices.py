@@ -6,7 +6,7 @@ import pdb
 def get_currency_prices():
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0',
-        'Upgrade-Insecure-Requests': '100',
+        'Upgrade-Insecure-Requests': '500',
         'Cache-Control': 'no-cache',
         'Connection': 'close',
     }
@@ -40,7 +40,6 @@ def get_currency_prices():
         'gerami_coin': coin_gerami['p']
     }
 
-    
     return currency
 
 

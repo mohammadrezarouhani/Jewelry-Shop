@@ -59,5 +59,5 @@ class FactorProduct(models.Model):
     discount=models.PositiveIntegerField()
     number=models.IntegerField()
 
-    def __str__(self) :
-        return f"{self.id}"
+    def __str__(self) :     
+        return f"{self.name}{self.id}"

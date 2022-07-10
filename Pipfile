@@ -9,6 +9,8 @@ djangorestframework = "*"
 pillow = "*"
 djangorestframework-simplejwt = "*"
 requests = "*"
+python-dotenv = "*"
+asgiref = "*"
 
 [dev-packages]
 
