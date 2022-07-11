@@ -5,15 +5,15 @@ import pdb
 
 def get_currency_prices():
     header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0',
-        'Upgrade-Insecure-Requests': '500',
+        'User-Agent': 'Mozilla/5.0 Firefox/90.0',
+        'Upgrade-Insecure-Requests': '10000',
         'Cache-Control': 'no-cache',
         'Connection': 'close',
     }
 
 
 
-    url='https://call5.tgju.org/ajax.json?rev=cuL8G3eIsub5vXsO3YzNAOKSoPmMrS1M35ZZ94mNaRh4ZUT5U43ghlOQQOJ3'
+    url='https://call5.tgju.org/ajax.json'
     data = requests.get(url,headers=header).text
 
     data = json.loads(data)
