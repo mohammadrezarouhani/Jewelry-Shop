@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductSoldSerializer(serializers.ModelSerializer):
     class Meta:
         model=FactorProduct
-        fields=['id','product','name','price','tax','discount','number']
+        fields=['id','product','name','price','tax','discount','date_added','number']
 
 
 class FactorSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class FactorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Factor
-        fields=['id','seller','customer_name',
+        fields=['id','seller','customer_name','total_price',
                 'payment_type','comment','date',"product_sold"]
 
     def create(self, validated_data):
@@ -43,7 +43,7 @@ class FactorSerializer(serializers.ModelSerializer):
 
 
 class DailyPriceSerializer(serializers.Serializer):
-    price=serializers.CharField(max_length=255)
+    daily_sale=serializers.CharField(max_length=255)
     date=serializers.DateField()
 
 

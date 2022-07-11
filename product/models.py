@@ -2,7 +2,7 @@ from PIL import Image
 from django.db import models
 from django.forms import modelformset_factory
 from user.models import BaseUser
-
+from django.utils import timezone
 
 
 class Product(models.Model):
@@ -43,8 +43,9 @@ class Factor(models.Model):
     seller=models.ForeignKey(BaseUser,on_delete=models.CASCADE)
     customer_name=models.CharField(max_length=155)
     payment_type = models.CharField(choices=PAYMENT,default=CASH,max_length=55)
+    total_price=models.PositiveIntegerField(null=True)
     comment = models.CharField(max_length=755,null=True,blank=True)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateField(auto_now=True)
 
     def __str__(self):
         return f"{self.customer_name}({self.id})"
@@ -58,6 +59,7 @@ class FactorProduct(models.Model):
     tax=models.PositiveIntegerField()
     discount=models.PositiveIntegerField()
     number=models.IntegerField()
+    date_added=models.DateField(auto_now=True)
 
     def __str__(self) :     
         return f"{self.name}{self.id}"
