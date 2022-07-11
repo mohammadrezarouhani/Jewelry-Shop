@@ -1,3 +1,4 @@
+from calendar import month
 import pdb
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -69,17 +70,10 @@ class MonthlySale(generics.ListAPIView):
     serializer_class = MonthlyPriceSerializer
 
     def get_queryset(self):
-        query = """
-            select 1 id,
-            sum(cast(total_price as int )) - sum(cast(tax as int)) - sum(cast (discount as int)) as price ,
-            to_char(date,'Mon') as month,
-            extract(year from date) as year
-            from products_factor 
-            where extract(month from DATE(date))  > extract(month from DATE(CURRENT_DATE)) - 12
-            and products_factor.seller_id = %s
-            group by 3,4
-        """
-        return Factor.objects.raw(query, [self.kwargs['user']])
+        dt_range = date.today()-timedelta(days=365)
+        query = Factor.objects.filter(Q(seller=self.kwargs['user']) & Q(date__gte=dt_range)).values(
+            'date__month','date__year').order_by('date__month').annotate(daily_sale=Sum('total_price'))
+        return query
 
 
 class CurrencyInfo(generics.ListAPIView):

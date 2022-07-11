@@ -48,6 +48,6 @@ class DailyPriceSerializer(serializers.Serializer):
 
 
 class MonthlyPriceSerializer(serializers.Serializer):
-    price=serializers.CharField(max_length=255)
-    month=serializers.CharField(max_length=25)
-    year=serializers.CharField(max_length=25)
+    daily_sale=serializers.CharField(max_length=255)
+    date__month=serializers.CharField(max_length=25)
+    date__year=serializers.CharField(max_length=25)
