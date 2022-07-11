@@ -35,6 +35,12 @@ class FactorList(generics.ListCreateAPIView):
     serializer_class = FactorSerializer
     permissions = [IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        total_price=sum(i['price']-i['tax']-i['discount'] for i in request.data['product_sold'])
+        request.data['total_price']=total_price
+        return super().create(request,*args,**kwargs)
+        
+
     def get_queryset(self):
         param = self.request.query_params.get('seller', '')
         if param:
