@@ -6,11 +6,10 @@ from django.utils import timezone
 
 
 class Product(models.Model):
-    COIN='co'
-    GRAM='gr'
     TYPE=(['co','coin'],['jew','jewelry'],['go','gold_bullion'])
     UNIT=(['o','ons'],['m','methghal'],['gr','geram'])
-
+    COIN='co'
+    GRAM='gr'
     user=models.ForeignKey(BaseUser,on_delete=models.CASCADE,related_name='product_user')
     name=models.CharField(max_length=55)
     price=models.PositiveIntegerField()
@@ -34,7 +33,6 @@ class Product(models.Model):
         return "{} ({})".format(self.name,self.id)
 
 
-
 class Factor(models.Model):
     CASH='csh'
     CREDIT='crd'
@@ -43,7 +41,6 @@ class Factor(models.Model):
     seller=models.ForeignKey(BaseUser,on_delete=models.CASCADE)
     customer_name=models.CharField(max_length=155)
     payment_type = models.CharField(choices=PAYMENT,default=CASH,max_length=55)
-    total_price=models.PositiveIntegerField(null=True)
     comment = models.CharField(max_length=755,null=True,blank=True)
     date = models.DateField(auto_now=True)
 

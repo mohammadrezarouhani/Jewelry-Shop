@@ -4,15 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-djangorestframework = "*"
-pillow = "*"
-djangorestframework-simplejwt = "*"
-requests = "*"
-python-dotenv = "*"
-asgiref = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"
