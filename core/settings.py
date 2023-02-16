@@ -11,8 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()
-SECRET_KEY = os.environ.get('secret-key')
+SECRET_KEY = "django-insecure-!c9zhy&1t51wk6ss5!+%sr%@epaywb1zv09kl)#s0#-cj4vu!a"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -131,14 +130,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL='user.BaseUser'
 
-STATIC_URL='/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'static')
-
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
